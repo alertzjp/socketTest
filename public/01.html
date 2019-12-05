@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>websocket</title>
+</head>
+<body style="text-align:center">
+
+<h1>模拟socket推送数据</h1>
+<div id="main" style="width: 1000px;height:600px;margin:0 auto"></div>
+
+</body>
+<script src="https://cdn.bootcss.com/echarts/4.3.0-rc.1/echarts-en.min.js"></script>
+<script src="https://cdn.bootcss.com/socket.io/2.2.0/socket.io.js"></script>
+</script>
+<script>
+    let socket = io.connect('http://localhost:3000');
+    let btn = document.getElementById('msgbtn');
+    let msginput = document.getElementById('msginput');
+    let showbox = document.getElementById('showbox');
+    socket.on('receiveMessage', (data) => {
+        drawecharts(data)
+    })
+    function drawecharts(data){
+      var myChart = echarts.init(document.getElementById('main'));
+      var option = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: data,
+            type: 'bar'
+        }]
+    };
+      myChart.setOption(option);
+    }
+</script>
+
+</html>
